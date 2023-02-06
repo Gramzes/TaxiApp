@@ -4,14 +4,20 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Patterns
 import android.view.View
+import android.widget.Toast
 import androidx.activity.viewModels
 import com.example.taxiapp.databinding.ActivityDriverSignInBinding
+import com.example.taxiapp.model.User
 import com.example.taxiapp.viewmodel.DriverSignInViewModel
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 
 class DriverSignInActivity : AppCompatActivity() {
     private lateinit var binding: ActivityDriverSignInBinding
     private var isSignInMode = true
     private val viewModel: DriverSignInViewModel by viewModels()
+    private lateinit var auth: FirebaseAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,6 +39,8 @@ class DriverSignInActivity : AppCompatActivity() {
             isSignInMode = !isSignInMode
             changeUI(isSignInMode)
         }
+
+        auth = Firebase.auth
     }
 
     fun saveData(){
@@ -140,7 +148,18 @@ class DriverSignInActivity : AppCompatActivity() {
     }
 
     private fun signInUser() {
+        val email = binding.emailEditText.editText!!.text.toString()
+        val password = binding.passwordEditText.editText!!.text.toString()
 
+        auth.signInWithEmailAndPassword(email, password)
+            .addOnCompleteListener(this) { task ->
+                if (task.isSuccessful) {
+
+                } else {
+                    Toast.makeText(baseContext, "Authentication failed.",
+                        Toast.LENGTH_SHORT).show()
+                }
+            }
     }
 
     private fun signUpUser(){
@@ -149,7 +168,19 @@ class DriverSignInActivity : AppCompatActivity() {
         val isPasVal = validatePassword()
 
         if (isMailVal && isNameVal && isPasVal){
+            val name = binding.nameEditText.editText!!.text.toString()
+            val email = binding.emailEditText.editText!!.text.toString()
+            val password = binding.passwordEditText.editText!!.text.toString()
 
+            auth.createUserWithEmailAndPassword(email, password)
+                .addOnCompleteListener(this) { task ->
+                    if (task.isSuccessful) {
+                        viewModel.addUser(User(name))
+                    } else {
+                        Toast.makeText(baseContext, "Authentication failed.",
+                            Toast.LENGTH_SHORT).show()
+                    }
+                }
         }
     }
 }

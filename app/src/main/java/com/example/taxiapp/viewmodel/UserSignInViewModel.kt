@@ -7,6 +7,7 @@ import com.google.firebase.ktx.Firebase
 
 class UserSignInViewModel: ViewModel() {
     private val database = Firebase.database
+
     var isSignInMode = true
     var email = ""
     var name = ""
