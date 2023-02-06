@@ -18,7 +18,7 @@ class SplashScreenActivity : AppCompatActivity() {
                     ex.printStackTrace()
                 }
                 finally {
-                    val intent = Intent(this@SplashScreenActivity, SignInActivity::class.java)
+                    val intent = Intent(this@SplashScreenActivity, ChooseModeActivity::class.java)
                     startActivity(intent)
                     finish()
                 }
