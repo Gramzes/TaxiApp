@@ -1,5 +1,6 @@
 package com.example.taxiapp
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.taxiapp.databinding.ActivityUserSignInBinding
@@ -154,10 +155,13 @@ class UserSignInActivity : AppCompatActivity() {
         auth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
-
+                    val intent = Intent(this, UserMapActivity::class.java)
+                    startActivity(intent)
+                    finish()
                 } else {
                     Toast.makeText(baseContext, "Authentication failed.",
                         Toast.LENGTH_SHORT).show()
+                    var a =1
                 }
             }
     }
@@ -176,6 +180,9 @@ class UserSignInActivity : AppCompatActivity() {
                 .addOnCompleteListener(this) { task ->
                     if (task.isSuccessful) {
                         viewModel.addUser(User(name))
+                        val intent = Intent(this, UserMapActivity::class.java)
+                        startActivity(intent)
+                        finish()
                     } else {
                         Toast.makeText(baseContext, "Authentication failed.",
                             Toast.LENGTH_SHORT).show()

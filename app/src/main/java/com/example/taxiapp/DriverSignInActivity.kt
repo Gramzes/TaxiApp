@@ -1,5 +1,6 @@
 package com.example.taxiapp
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Patterns
@@ -154,7 +155,9 @@ class DriverSignInActivity : AppCompatActivity() {
         auth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
-
+                    val intent = Intent(this, DriverMapActivity::class.java)
+                    startActivity(intent)
+                    finish()
                 } else {
                     Toast.makeText(baseContext, "Authentication failed.",
                         Toast.LENGTH_SHORT).show()
@@ -176,6 +179,9 @@ class DriverSignInActivity : AppCompatActivity() {
                 .addOnCompleteListener(this) { task ->
                     if (task.isSuccessful) {
                         viewModel.addUser(User(name))
+                        val intent = Intent(this, DriverMapActivity::class.java)
+                        startActivity(intent)
+                        finish()
                     } else {
                         Toast.makeText(baseContext, "Authentication failed.",
                             Toast.LENGTH_SHORT).show()
